@@ -1,27 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserChangeForm
 
 from .models import User
 from .forms import CustomUserCreationForm
-
-# Register your models here.
-# class CustomUserAdmin(UserAdmin):
-#     # Making password field non-editable
-#     fieldsets = []
-#     filter_horizontal = []
-#     list_filter = []
-
-#     # changing the display menu of User model at admin panel
-#     list_display = ['email', 'first_name', 'last_name', 'is_active']
-
-#     # ordering the list of users depending on the date_joined field descending
-#     ordering = ['-date_joined']
-    
-
-
-# admin.site.register(User, CustomUserAdmin)
-
 
 
 class CustomUserAdmin(UserAdmin):
@@ -43,14 +26,14 @@ class CustomUserAdmin(UserAdmin):
 
     fieldsets = [
         [None, {'fields': ['email', 'password', 'first_name', 'last_name', 'username', 'phone_number', 'role']}],
-        ['Permissions', {'fields': ['is_admin', 'is_staff', 'is_active', 'is_superadmin',]}],
+        ['Permissions', {'fields': ['is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions',]}],
         ['Important dates', {'fields': ['date_joined', 'created_at', 'updated_at', 'last_login',]}],
     ]
 
     add_fieldsets = [
         [None, {
             'classes': ['wide',],
-            'fields': ['email', 'password', 'confirm_password', 'first_name', 'last_name', 'phone_number', 'role', 'is_active']},
+            'fields': ['email', 'password', 'confirm_password', 'first_name', 'last_name', 'phone_number', 'role', 'is_active', 'groups', 'user_permissions',]},
         ],
     ]
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -34,23 +34,26 @@ class UserManager(BaseUserManager):
         )
 
         super_user.is_active = True
-        super_user.is_admin = True
         super_user.is_staff = True
-        super_user.is_superadmin = True
+        super_user.is_superuser = True
+
+        super_user.role = User.ROLE_ADMIN
 
         super_user.save(using = self._db)
 
         return super_user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     ROLE_ADMIN = 1
-    ROLE_EMPLOYEE = 2
-    ROLE_ENGINEER = 3
+    ROLE_RECEPTIONIST = 2
+    ROLE_ADVISER = 3
+    ROLE_ENGINEER = 4
 
     ROLE_CHOICE = (
         (ROLE_ADMIN, 'Admin'),
-        (ROLE_EMPLOYEE, 'Employee'),
+        (ROLE_RECEPTIONIST, 'Receptionist'),
+        (ROLE_ADVISER, 'Adviser'),
         (ROLE_ENGINEER, 'Engineer'),
     )
 
@@ -60,7 +63,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length = 255, unique = True)
     phone_number = models.CharField(max_length = 255, unique = True)
     
-    role = models.PositiveSmallIntegerField(choices = ROLE_CHOICE, default = ROLE_EMPLOYEE)
+    role = models.PositiveSmallIntegerField(choices = ROLE_CHOICE, default = ROLE_ENGINEER)
 
 
     date_joined = models.DateTimeField(auto_now_add = True)
@@ -68,10 +71,9 @@ class User(AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now = True)
     last_login = models.DateTimeField(auto_now = True)
 
-    is_admin = models.BooleanField(default = False)
     is_staff = models.BooleanField(default = False)
-    is_active = models.BooleanField(default = False)
-    is_superadmin = models.BooleanField(default = False)
+    is_active = models.BooleanField(default = True)
+    is_superuser = models.BooleanField(default = False)
 
     objects = UserManager()
 
@@ -83,7 +85,7 @@ class User(AbstractBaseUser):
         return self.email
 
     def has_perm(self, perm, obj = None):
-        return self.is_admin
+        return self.is_superuser
 
     def has_module_perms(self, app_label):
         return True
