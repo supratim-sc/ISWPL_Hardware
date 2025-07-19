@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +81,10 @@ DATABASES = {
         'NAME': BASE_DIR / config('NAME'),
     }
 }
+
+
+# CHANGING THE DEFAULT ACCOUNTS APP WITH OUR CUSTOM ACCOUNTS APP
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Password validation
