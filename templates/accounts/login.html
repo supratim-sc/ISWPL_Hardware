@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="static/css/accounts/login.css" />
 <div class="container">
   <h4 class="text-center">Login Form</h4>
-  <form action="">
+  <form action="" method="POST">
+    {% csrf_token %}
     <div class="form-group mt-4">
       <label for="email"> Email:</label>
       <input
