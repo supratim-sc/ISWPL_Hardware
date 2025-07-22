@@ -5,7 +5,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 class UserManager(BaseUserManager):
 
     # FOR CREATING NORMAL USER
-    def create_user(self, first_name, last_name, email, phone_number, username = None, password=None):
+    def create_user(self, first_name, last_name, email, phone_number, password=None):
         if not email:
             raise ValueError("User must have an email")
 
@@ -15,7 +15,6 @@ class UserManager(BaseUserManager):
             first_name = first_name,
             last_name = last_name,
             email = self.normalize_email(email),
-            username = username,
             phone_number = phone_number,
         )
 
@@ -23,14 +22,13 @@ class UserManager(BaseUserManager):
         user.save(using = self._db)
         return user
 
-    def create_superuser(self, first_name, last_name, email, phone_number, username = None, password = None):
+    def create_superuser(self, first_name, last_name, email, phone_number, password = None):
         super_user = self.create_user(
             first_name = first_name,
             last_name = last_name,
             email = self.normalize_email(email),
-            username = username,
             phone_number = phone_number,
-            password = password
+            password = password,
         )
 
         super_user.is_active = True
@@ -60,7 +58,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length = 255)
     last_name = models.CharField(max_length = 255)
     email = models.CharField(max_length = 255, unique = True)
-    username = models.CharField(max_length = 255, unique = True)
     phone_number = models.CharField(max_length = 255, unique = True)
     
     role = models.PositiveSmallIntegerField(choices = ROLE_CHOICE, default = ROLE_ENGINEER)

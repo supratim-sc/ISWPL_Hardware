@@ -25,7 +25,7 @@ class CustomUserAdmin(UserAdmin):
 
 
     fieldsets = [
-        [None, {'fields': ['email', 'password', 'first_name', 'last_name', 'username', 'phone_number', 'role']}],
+        [None, {'fields': ['email', 'password', 'first_name', 'last_name', 'phone_number', 'role']}],
         ['Permissions', {'fields': ['is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions',]}],
         ['Important dates', {'fields': ['date_joined', 'created_at', 'updated_at', 'last_login',]}],
     ]
