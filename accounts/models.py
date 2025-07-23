@@ -9,8 +9,6 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("User must have an email")
 
-        username = email.split('@')[0]
-
         user = self.model(
             first_name = first_name,
             last_name = last_name,
@@ -43,10 +41,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    ROLE_ADMIN = 1
-    ROLE_RECEPTIONIST = 2
-    ROLE_ADVISER = 3
-    ROLE_ENGINEER = 4
+    ROLE_ADMIN = 'ADMIN'
+    ROLE_RECEPTIONIST = 'RECEPTIONIST'
+    ROLE_ADVISER = 'ADVISER'
+    ROLE_ENGINEER = 'ENGINEER'
 
     ROLE_CHOICE = (
         (ROLE_ADMIN, 'Admin'),
@@ -61,7 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length = 255, unique = True)
     profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default_user.png', blank=True, null=True )
     
-    role = models.PositiveSmallIntegerField(choices = ROLE_CHOICE, default = ROLE_ENGINEER)
+    role = models.CharField(choices = ROLE_CHOICE, default = ROLE_ENGINEER)
 
 
     date_joined = models.DateTimeField(auto_now_add = True)

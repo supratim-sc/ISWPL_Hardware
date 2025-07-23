@@ -39,10 +39,14 @@
             Enquiry
           </a>
           <ul class="dropdown-menu" aria-labelledby="enquiryDropdown">
+            {% if user.role == 'ADMIN' or user.role == 'RECEPTIONIST' %}
             <li><a class="dropdown-item" href="#">Create Enquiry</a></li>
+            {% endif %}
             <li><a class="dropdown-item" href="#">View Enquiry</a></li>
+            {% if user.role == 'ADMIN' %}
             <li><a class="dropdown-item" href="#">Update Enquiry</a></li>
             <li><a class="dropdown-item" href="#">Delete Enquiry</a></li>
+            {% endif %}
           </ul>
         </li>
         <!-- Docket Dropdown -->
@@ -58,13 +62,18 @@
             Docket
           </a>
           <ul class="dropdown-menu" aria-labelledby="docketDropdown">
+            {% if user.role == 'ADMIN' or user.role == 'RECEPTIONIST' %}
             <li><a class="dropdown-item" href="#">Create Docket</a></li>
+            {% endif %}
             <li><a class="dropdown-item" href="#">View Docket</a></li>
+            {% if user.role == 'ADMIN' %}
             <li><a class="dropdown-item" href="#">Update Docket</a></li>
             <li><a class="dropdown-item" href="#">Delete Enquiry</a></li>
+            {% endif %}
           </ul>
         </li>
         <!-- Report Dropdown -->
+        {% if user.role == 'ADMIN' %}
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -87,6 +96,7 @@
             <li><a class="dropdown-item" href="#">Docket Report</a></li>
           </ul>
         </li>
+        {% endif %}
       </ul>
       <!-- Right-aligned Account Settings -->
       <ul class="navbar-nav mb-2 mb-lg-0">
