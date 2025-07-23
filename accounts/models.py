@@ -59,6 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length = 255)
     email = models.CharField(max_length = 255, unique = True)
     phone_number = models.CharField(max_length = 255, unique = True)
+    profile_image = models.ImageField(upload_to='profile_images/', default='profile_images/default_user.png', blank=True, null=True )
     
     role = models.PositiveSmallIntegerField(choices = ROLE_CHOICE, default = ROLE_ENGINEER)
 
@@ -80,6 +81,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self) -> str:
         return self.email
+    
+    def full_name(self) -> str:
+        return f'{self.first_name} {self.last_name}'
 
     def has_perm(self, perm, obj = None):
         return self.is_superuser
