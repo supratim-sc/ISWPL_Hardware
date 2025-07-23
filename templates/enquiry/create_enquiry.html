@@ -1,0 +1,136 @@
+{% extends 'includes/base.html' %}
+
+<!-- LOADING STATIC FILES -->
+{% load static %}
+
+<!-- Here starts out content -->
+{% block content %}
+<!-- INCLUDING DASH BOARD -->
+<link rel="stylesheet" href="{% static 'css/enquiry/create_enquiry.css' %}" />
+{% include 'accounts/dashboard.html' %}
+
+<div class="container my-5">
+  <!-- Showing Messages Here -->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <!-- INCLUDING MESSAGES -->
+      {% include 'includes/messages.html' %}
+    </div>
+  </div>
+  <!-- End Messages Here -->
+
+  <!-- RENDERING FORM HERE -->
+  <form action="" method="POST">
+    {% csrf_token %}
+    <!-- Form input First Name & Last Name -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="first_name" class="form-label"
+          >First name <span class="text-danger">*</span>
+        </label>
+        {{ form.first_name }}
+      </div>
+      <!-- form-group end.// -->
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="last_name" class="form-label"
+          >Last name <span class="text-danger">*</span></label
+        >
+        {{ form.last_name }}
+      </div>
+      <!-- form-group end.// -->
+    </div>
+    <!-- form-row end.// -->
+
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="phone_number" class="form-label"
+          >Phone Number <span class="text-danger">*</span></label
+        >
+        {{ form.phone_number }}
+      </div>
+
+      <!-- form-group end.// -->
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="whatsapp_number" class="form-label"
+          >Whatsapp Number <span class="text-danger">*</span></label
+        >
+        {{ form.whatsapp_number }}
+
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="check_whatsapp_as_phone"
+          />
+          <label class="form-check-label" for="check_whatsapp_as_phone">
+            Same as Phone Number
+          </label>
+        </div>
+      </div>
+      <!-- form-group end.// -->
+    </div>
+    <!-- form-row end.// -->
+
+    <div class="mb-3 row g-2">
+      <div class="col-md-12 col-sm-12 form-group">
+        <label for="address" class="form-label"
+          >Address <span class="text-danger">*</span></label
+        >
+        {{ form.address }}
+      </div>
+      <!-- form-group end -->
+    </div>
+    <!-- form-row end -->
+
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="enquiry_type" class="form-label"
+          >Enquiry Type <span class="text-danger">*</span></label
+        >
+        {{ form.enquiry_type }}
+      </div>
+      <!-- form-group end.// -->
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="service_description" class="form-label">
+          Service Description <span class="text-danger">*</span></label
+        >
+        {{ form.service_description }}
+      </div>
+      <!-- form-group end.// -->
+    </div>
+    <!-- form-row end.// -->
+
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="reference_type" class="form-label">
+          Reference Type <span class="text-danger">*</span>
+        </label>
+        {{ form.reference_type }}
+      </div>
+      <!-- form-group end.// -->
+
+      <!-- Customer Reference Div -->
+      <div class="col-md-6 col-sm-12 form-group" id="customer_reference_div">
+        <label for="customer_reference" class="form-label"
+          >Customer Name <span class="text-danger">*</span></label
+        >
+        {{ form.customer_reference_name }}
+      </div>
+      <!-- form-group end.// -->
+
+      <!-- Tele Caller Div -->
+      <div class="col-md-6 col-sm-12 form-group" id="tele_caller_div">
+        <label for="tele_caller_name" class="form-label"
+          >Tele Caller <span class="text-danger">*</span></label
+        >
+        {{ form.tele_caller_name }}
+      </div>
+      <!-- form-group end.// -->
+    </div>
+    <!-- form-row end.// -->
+    <input type="submit" value="Submit" class="btn btn-primary" />
+  </form>
+</div>
+<script src="{% static 'js/enquiry/create_enquiry.js' %}"></script>
+{% endblock %}

@@ -14,6 +14,7 @@ class EnquiryType(models.Model):
 
 class TeleCaller(models.Model):
     tele_caller_name = models.CharField(max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -41,10 +42,24 @@ class Enquiry(models.Model):
     enquiry_type = models.ForeignKey(EnquiryType, on_delete=models.RESTRICT, null=True)
     service_description = models.TextField()
     reference_type = models.ForeignKey(ReferenceType, on_delete=models.RESTRICT, null=True)
-    customer_reference_name = models.CharField(max_length=255, blank=True)
-    tele_caller_name = models.ForeignKey(TeleCaller, on_delete=models.RESTRICT, null=True)
+    customer_reference_name = models.CharField(max_length=255, blank=True, null=True)
+    tele_caller_name = models.ForeignKey(TeleCaller, on_delete=models.RESTRICT, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='enquiries_created'
+    )
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='enquiries_updated'
+    )
 
     def save(self, *args, **kwargs):
         if not self.enquiry_id:
