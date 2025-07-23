@@ -20,7 +20,7 @@ body {
   box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
 }
 
-button {
+.submit-btn-custom {
   width: 100%;
   color: #fff !important;
   border-radius: 6px !important;
@@ -32,7 +32,7 @@ button {
   transition: background 0.3s ease;
 }
 
-button:hover {
+.submit-btn-custom:hover {
   background: #0a58ca !important;
 }
 

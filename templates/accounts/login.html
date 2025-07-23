@@ -1,11 +1,12 @@
 {% extends 'includes/base.html' %}
 
 <!-- LOADING STATIC FILES -->
-{% load static %} {% load static %}
+{% load static %}
 
 <!-- CONTENT BLOCK -->
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/accounts/login.css' %}" />
+{% include 'includes/messages.html' %}
 <div class="container">
   <h4 class="text-center">Login Form</h4>
   <form action="" method="POST">
@@ -30,7 +31,9 @@
         name="password"
       />
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default submit-btn-custom">
+      Submit
+    </button>
   </form>
 </div>
 

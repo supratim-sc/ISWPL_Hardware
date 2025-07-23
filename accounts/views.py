@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required 
 
 # Create your views here.
@@ -18,11 +18,17 @@ def login(request):
             # logging in the user and storing the user in the request
             auth.login(request, user)
 
+            # showing the success message
+            messages.success(request, f"Welcome back {user.first_name}")
+
             # redirecting the user to the dashboard page
             return redirect('dashboard')
         
         # if user not found, then
         else:
+            # showing the error message
+            messages.error(request, 'Invalid credentials! Try again!')
+
             # redirecting the user to the login page
             return redirect('login')
 
@@ -51,6 +57,8 @@ def dashboard(request):
 def logout(request):
     # logging out the user
     auth.logout(request)
+
+    messages.success(request, 'Logged out successfully')
 
     # after logging out, return the user to the login page
     return redirect('login')
