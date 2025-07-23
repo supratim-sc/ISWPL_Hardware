@@ -32,6 +32,7 @@ class ReferenceType(models.Model):
 
 
 class Enquiry(models.Model):
+    enquiry_id = models.CharField(max_length=10, unique=True, editable=False)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=10)
@@ -45,10 +46,22 @@ class Enquiry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
+    def save(self, *args, **kwargs):
+        if not self.enquiry_id:
+            last_enquiry = Enquiry.objects.order_by('-id').first()
+            if last_enquiry and last_enquiry.enquiry_id:
+                last_id = int(last_enquiry.enquiry_id.replace('ENQ', ''))
+            else:
+                last_id = 0
+            self.enquiry_id = f'ENQ{last_id + 1:06d}'
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.full_name()
+        return self.enquiry_id
+    
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+    
+
     class Meta:
         verbose_name_plural = 'Enquiries'
