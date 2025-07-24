@@ -1,0 +1,72 @@
+{% extends 'includes/base.html' %}
+
+<!-- INCLUDING STATIC FILES -->
+{% load static %}
+
+<!-- BLOCK CONTENT STARTS HERE -->
+{% block content %}
+<!-- INCLUDING NAVBAR -->
+{% include 'includes/navbar.html' %}
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/buttons/3.2.4/css/buttons.dataTables.css"
+/>
+<div class="container my-5">
+  <table class="table table-striped" id="enquiryTable">
+    <thead>
+      <tr>
+        <th scope="col">Enquiry ID</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Whatsapp</th>
+        <th scope="col">Enquiry Type</th>
+        <th scope="col">Service Description</th>
+        <th scope="col">Updated At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for enquiry in enquiries %}
+      <tr>
+        <th scope="row">
+          <a href="{{enquiry.enquiry_id}}">{{ enquiry.enquiry_id }}</a>
+        </th>
+        <td>{{ enquiry.full_name }}</td>
+        <td>{{ enquiry.phone_number }}</td>
+        <td>{{ enquiry.whatsapp_number }}</td>
+        <td>{{ enquiry.enquiry_type }}</td>
+        <td>{{ enquiry.service_description }}</td>
+        <td>{{ enquiry.updated_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/buttons.print.min.js"></script>
+<script>
+  new DataTable("#enquiryTable", {
+    responsive: true,
+    layout: {
+      topStart: {
+        buttons: ["copy", "csv", "excel", "pdf", "print"],
+      },
+    },
+  });
+</script>
+<!-- BLOCK CONTENT ENDS HERE -->
+{% endblock %}

@@ -20,3 +20,10 @@ def create_enquiry(request):
     form = EnquiryForm()
 
     return render(request, 'enquiry/create_enquiry.html', {'form': form,})
+
+
+@login_required(login_url='login')
+def view_enquiries(request):
+    enquiries = Enquiry.objects.all().order_by('-created_at')
+    
+    return render(request, 'enquiry/view_enquiries.html', context={'enquiries' : enquiries})

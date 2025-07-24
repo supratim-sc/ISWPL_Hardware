@@ -42,7 +42,11 @@
               >
             </li>
             {% endif %}
-            <li><a class="dropdown-item" href="#">View Enquiry</a></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'view_enquiries' %}"
+                >View Enquiry</a
+              >
+            </li>
             {% if user.role == 'ADMIN' %}
             <li><a class="dropdown-item" href="#">Update Enquiry</a></li>
             <li><a class="dropdown-item" href="#">Delete Enquiry</a></li>
