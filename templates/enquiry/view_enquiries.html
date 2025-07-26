@@ -19,6 +19,8 @@
   rel="stylesheet"
   href="https://cdn.datatables.net/buttons/3.2.4/css/buttons.dataTables.css"
 />
+<!-- INCLUDING MESSAGES -->
+{% include 'includes/messages.html' %}
 <div class="container my-5">
   <table class="table table-striped" id="enquiryTable">
     <thead>
@@ -36,7 +38,9 @@
       {% for enquiry in enquiries %}
       <tr>
         <th scope="row">
-          <a href="{{enquiry.enquiry_id}}">{{ enquiry.enquiry_id }}</a>
+          <a href="{% url 'update_enquiry' enquiry.enquiry_id %}"
+            >{{ enquiry.enquiry_id }}</a
+          >
         </th>
         <td>{{ enquiry.full_name }}</td>
         <td>{{ enquiry.phone_number }}</td>
@@ -63,9 +67,51 @@
     responsive: true,
     layout: {
       topStart: {
-        buttons: ["copy", "csv", "excel", "pdf", "print"],
+        buttons: [
+          "copy",
+          "csv",
+          "excel",
+          "pdf",
+          {
+            extend: "print",
+            text: "Print",
+            customize: function (win) {
+              // Set A4 landscape print size
+              const style = document.createElement("style");
+              style.textContent = `
+                @page {
+                  size: A4 landscape;
+                  margin: 1cm;
+                }
+                body {
+                  font-family: Arial, sans-serif;
+                }
+              `;
+              win.document.head.appendChild(style);
+
+              /*
+                // Add watermark
+                const watermark = win.document.createElement("div");
+                watermark.textContent = "ISWPL Hardware";
+                Object.assign(watermark.style, {
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  fontSize: "5rem",
+                  color: "#999",
+                  opacity: "0.2",
+                  transform: "translate(-50%, -50%)",
+                  zIndex: "9999",
+                  pointerEvents: "none",
+                });
+                win.document.body.appendChild(watermark);
+              */
+            },
+          },
+        ],
       },
     },
+    order: [], // removes default sorting on first column
   });
 </script>
 <!-- BLOCK CONTENT ENDS HERE -->

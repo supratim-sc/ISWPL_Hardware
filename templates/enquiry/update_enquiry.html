@@ -20,7 +20,7 @@
   <!-- End Messages Here -->
 
   <!-- RENDERING FORM HERE -->
-  <form action="{% url 'create_enquiry' %}" method="POST">
+  <form action="{% url 'update_enquiry' enquiry.enquiry_id %}" method="POST">
     {% csrf_token %}
     <!-- Form input First Name & Last Name -->
     <div class="mb-3 row g-2">
@@ -28,14 +28,14 @@
         <label for="first_name" class="form-label"
           >First name <span class="text-danger">*</span>
         </label>
-        {{ form.first_name }}
+        {{ enquiry_form.first_name }}
       </div>
       <!-- form-group end.// -->
       <div class="col-md-6 col-sm-12 form-group">
         <label for="last_name" class="form-label"
           >Last name <span class="text-danger">*</span></label
         >
-        {{ form.last_name }}
+        {{ enquiry_form.last_name }}
       </div>
       <!-- form-group end.// -->
     </div>
@@ -46,7 +46,7 @@
         <label for="phone_number" class="form-label"
           >Phone Number <span class="text-danger">*</span></label
         >
-        {{ form.phone_number }}
+        {{ enquiry_form.phone_number }}
       </div>
 
       <!-- form-group end.// -->
@@ -54,7 +54,7 @@
         <label for="whatsapp_number" class="form-label"
           >Whatsapp Number <span class="text-danger">*</span></label
         >
-        {{ form.whatsapp_number }}
+        {{ enquiry_form.whatsapp_number }}
 
         <div class="form-check">
           <input
@@ -77,7 +77,7 @@
         <label for="address" class="form-label"
           >Address <span class="text-danger">*</span></label
         >
-        {{ form.address }}
+        {{ enquiry_form.address }}
       </div>
       <!-- form-group end -->
     </div>
@@ -88,14 +88,14 @@
         <label for="enquiry_type" class="form-label"
           >Enquiry Type <span class="text-danger">*</span></label
         >
-        {{ form.enquiry_type }}
+        {{ enquiry_form.enquiry_type }}
       </div>
       <!-- form-group end.// -->
       <div class="col-md-6 col-sm-12 form-group">
         <label for="service_description" class="form-label">
           Service Description <span class="text-danger">*</span></label
         >
-        {{ form.service_description }}
+        {{ enquiry_form.service_description }}
       </div>
       <!-- form-group end.// -->
     </div>
@@ -106,7 +106,7 @@
         <label for="reference_type" class="form-label">
           Reference Type <span class="text-danger">*</span>
         </label>
-        {{ form.reference_type }}
+        {{ enquiry_form.reference_type }}
       </div>
       <!-- form-group end.// -->
 
@@ -115,7 +115,7 @@
         <label for="customer_reference" class="form-label"
           >Customer Name <span class="text-danger">*</span></label
         >
-        {{ form.customer_reference_name }}
+        {{ enquiry_form.customer_reference_name }}
       </div>
       <!-- form-group end.// -->
 
@@ -124,13 +124,13 @@
         <label for="tele_caller_name" class="form-label"
           >Tele Caller <span class="text-danger">*</span></label
         >
-        {{ form.tele_caller_name }}
+        {{ enquiry_form.tele_caller_name }}
       </div>
       <!-- form-group end.// -->
     </div>
     <!-- form-row end.// -->
-    <input type="submit" value="Submit" class="btn btn-primary" />
+    <input type="submit" value="Update" class="btn btn-primary" />
   </form>
 </div>
-<script src="{% static 'js/enquiry/create_enquiry.js' %}"></script>
+<script src="{% static 'js/enquiry/update_enquiry.js' %}"></script>
 {% endblock %}
