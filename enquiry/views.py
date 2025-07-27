@@ -1,11 +1,28 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 
 from .forms import EnquiryForm
 from .models import Enquiry, EnquiryType, TeleCaller, ReferenceType
 
+
+# def role_required(*roles):
+#     def check(user):
+#         return user.role in roles
+#     return user_passes_test(check)
+
+
+def role_required(*roles):
+    def check(user):
+        if user.role in roles:
+            return True
+        raise PermissionDenied
+    return user_passes_test(check)
+
+
 @login_required(login_url='login')
+@role_required('ADMIN', 'RECEPTIONIST')
 def create_enquiry(request):
     if request.method == 'POST':
         form = EnquiryForm(request.POST)
@@ -23,6 +40,7 @@ def create_enquiry(request):
 
 
 @login_required(login_url='login')
+@role_required('ADMIN', 'RECEPTIONIST', 'ADVISER')
 def view_enquiries(request):
     enquiries = Enquiry.objects.all().order_by('-created_at')
     
@@ -30,6 +48,7 @@ def view_enquiries(request):
 
 
 @login_required(login_url='login')
+@role_required('ADMIN')
 def update_enquiry(request, enquiry_id):
     enquiry = get_object_or_404(Enquiry, enquiry_id=enquiry_id)
 
@@ -46,18 +65,3 @@ def update_enquiry(request, enquiry_id):
         'enquiry_form': enquiry_form,
         'enquiry': enquiry,
     })
-
-    # if request.method == 'POST':
-    #     form = EnquiryForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         messages.success(request, 'Enquiry updated successfully!!')
-    #         return redirect('view_enquiries')
-    # try:
-    #     enquiry = Enquiry.objects.get(enquiry_id=enquiry_id)
-    # except Enquiry.DoesNotExist:
-    #     return render(request, 'enquiry/enquiry_not_found.html', context={'enquiry_id' : enquiry_id})
-
-
-    # enquiry_form = EnquiryForm(instance=enquiry)
-    # return render(request, 'enquiry/update_enquiry.html', context={'enquiry_form': enquiry_form, 'enquiry' : enquiry})

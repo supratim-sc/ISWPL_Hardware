@@ -20,6 +20,8 @@ from django.urls import path, include
 # ADDING URL & MEDIA SETTINGS WITH URLPATTERN
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import render
+from django.conf.urls import handler403
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,3 +33,9 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+def custom_permission_denied_view(request, exception):
+    return render(request, "403.html", status=403)
+
+handler403 = custom_permission_denied_view
