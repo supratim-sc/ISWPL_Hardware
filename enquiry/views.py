@@ -32,7 +32,7 @@ def create_enquiry(request):
             enquiry.updated_by = request.user  # Set updated_by to current user
             enquiry.save()  # Now save to DB
             messages.success(request, f'Enquiry generate with enquiry id: {enquiry.enquiry_id}')
-            return redirect('create_enquiry')
+            return redirect('view_enquiries')
 
     form = EnquiryForm()
 

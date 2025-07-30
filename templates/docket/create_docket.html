@@ -1,0 +1,139 @@
+{% extends 'includes/base.html' %}
+
+<!-- LOADING STATIC FILES -->
+{% load static %}
+
+<!-- Here starts out content -->
+{% block content %}
+<!-- INCLUDING DASH BOARD -->
+<link rel="stylesheet" href="{% static 'css/enquiry/create_enquiry.css' %}" />
+{% include 'includes/navbar.html' %}
+
+<div class="container my-5">
+  <!-- Showing Messages Here -->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <!-- INCLUDING MESSAGES -->
+      {% include 'includes/messages.html' %}
+    </div>
+  </div>
+  <!-- End Messages Here -->
+
+  <!-- RENDERING FORM HERE -->
+  <!-- Enquiry Lookup Form (GET) -->
+  <form action="{% url 'create_docket' %}" method="get">
+    <div class="mb-3 row g-2 d-flex align-items-end">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="enquiry_id" class="form-label">
+          Enquiry ID <span class="text-muted">(optional)</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          name="enquiry_id"
+          placeholder="Enter Enquiry ID"
+          value="{{ enquiry_id|default:'' }}"
+        />
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <button type="submit" class="btn btn-outline-primary mt-2">
+          Fetch Details
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Main Docket Form (POST) -->
+  <form action="{% url 'create_docket' %}" method="post">
+    {% csrf_token %}
+
+    <!-- First and Last Name -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="first_name" class="form-label"
+          >First Name<span class="text-danger">*</span></label
+        >
+        {{ docket_form.first_name }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="last_name" class="form-label"
+          >Last Name<span class="text-danger">*</span></label
+        >
+        {{ docket_form.last_name }}
+      </div>
+    </div>
+
+    <!-- Phone and WhatsApp -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="phone_number" class="form-label"
+          >Phone Number <span class="text-danger">*</span></label
+        >
+        {{ docket_form.phone_number }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="whatsapp_number" class="form-label"
+          >WhatsApp Number <span class="text-danger">*</span></label
+        >
+        {{ docket_form.whatsapp_number }}
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="check_whatsapp_as_phone"
+          />
+          <label class="form-check-label" for="check_whatsapp_as_phone">
+            Same as Phone Number
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address and DOB -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="address" class="form-label"
+          >Address<span class="text-danger">*</span></label
+        >
+        {{ docket_form.address }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="dob" class="form-label"
+          >Date of Birth <span class="text-muted">(optional)</span></label
+        >
+        {{ docket_form.dob }}
+      </div>
+    </div>
+
+    <!-- Problem Facing and Expected Solution -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="problem_facing" class="form-label"
+          >Problem Facing<span class="text-danger">*</span></label
+        >
+        {{ docket_form.problem_facing }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="expected_solution" class="form-label"
+          >Expected Solution <span class="text-muted">(optional)</span></label
+        >
+        {{ docket_form.expected_solution }}
+      </div>
+    </div>
+
+    <!-- Assigned To and Submit -->
+    <div class="mb-3 row g-2 d-flex align-items-end">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="assigned_to" class="form-label"
+          >Assigned to<span class="text-danger">*</span></label
+        >
+        {{ docket_form.assigned_to }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="{% static 'js/enquiry/create_enquiry.js' %}"></script>
+{% endblock %}

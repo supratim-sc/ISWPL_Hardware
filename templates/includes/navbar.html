@@ -35,13 +35,13 @@
             Enquiry
           </a>
           <ul class="dropdown-menu" aria-labelledby="enquiryDropdown">
+            {% if user.role == 'ADMIN' or user.role == 'RECEPTIONIST' %}
             <li>
-              {% if user.role == 'ADMIN' or user.role == 'RECEPTIONIST' %}
               <a class="dropdown-item" href="{% url 'create_enquiry' %}"
                 >Create Enquiry</a
               >
-              {% endif %}
             </li>
+            {% endif %}
             <li>
               <a class="dropdown-item" href="{% url 'view_enquiries' %}"
                 >View Enquiry</a
@@ -63,7 +63,11 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="docketDropdown">
             {% if user.role == 'ADMIN' or user.role == 'RECEPTIONIST' %}
-            <li><a class="dropdown-item" href="#">Create Docket</a></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'create_docket' %}"
+                >Create Docket</a
+              >
+            </li>
             {% endif %}
             <li><a class="dropdown-item" href="#">View Docket</a></li>
           </ul>
