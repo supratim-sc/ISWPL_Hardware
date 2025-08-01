@@ -21,7 +21,7 @@
 
   <!-- RENDERING FORM HERE -->
   <!-- Enquiry Lookup Form (GET) -->
-  <form action="{% url 'create_docket' %}" method="get">
+  <form action="{% url 'create_docket' %}" method="get" class="mb-5">
     <div class="mb-3 row g-2 d-flex align-items-end">
       <div class="col-md-6 col-sm-12 form-group">
         <label for="enquiry_id" class="form-label">
@@ -44,7 +44,7 @@
   </form>
 
   <!-- Main Docket Form (POST) -->
-  <form action="{% url 'create_docket' %}" method="post">
+  <form action="{% url 'create_docket' %}" method="post" class="mt-5">
     {% csrf_token %}
 
     <!-- First and Last Name -->
@@ -135,5 +135,5 @@
     </div>
   </form>
 </div>
-<script src="{% static 'js/enquiry/create_enquiry.js' %}"></script>
+<script src="{% static 'js/docket/create_docket.js' %}"></script>
 {% endblock %}

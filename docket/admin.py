@@ -8,7 +8,7 @@ class DocketAdmin(admin.ModelAdmin):
 
     # You can also define fields to include/exclude for the form
     fields = ('enquiry', 'first_name', 'last_name', 'address', 'phone_number', 'whatsapp_number', 'dob', 
-              'problem_facing', 'expected_solution', 'assigned_to', 'status', 'created_by', 'update_log')
+              'problem_facing', 'expected_solution', 'assigned_to', 'status', 'created_by',)
     
     list_display = (
         'docket_id', 'first_name', 'last_name', 'assigned_to',

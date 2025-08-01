@@ -41,7 +41,8 @@ class Docket(models.Model):
         null=True,
         related_name='created_dockets'
     )
-    update_log = models.ForeignKey('DocketUpdateLog', null=True, blank=True, on_delete=models.RESTRICT)
+    # The 'update_log' field is removed here
+    # update_log = models.ForeignKey('DocketUpdateLog', null=True, blank=True, on_delete=models.RESTRICT)
 
     def save(self, *args, **kwargs):
         if not self.docket_id:
@@ -59,7 +60,9 @@ class Docket(models.Model):
 
     def __str__(self):
         return self.docket_id
-
+    
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class DocketUpdateLog(models.Model):
@@ -83,4 +86,4 @@ class DocketUpdateLog(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.docket_no.docket_no
+        return self.docket_id.docket_id

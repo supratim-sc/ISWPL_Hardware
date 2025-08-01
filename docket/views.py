@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 
-from .models import Docket
+from .models import Docket, DocketUpdateLog
 from .forms import DocketForm
 
 from enquiry.models import Enquiry
@@ -63,3 +63,12 @@ def create_docket(request):
         'docket_form': docket_form,
         'enquiry': enquiry,
     })
+
+
+
+@login_required(login_url='login')
+@user_passes_test(role_required("ADMIN", "RECEPTIONIST", "ADVISER"))
+def view_dockets(request):
+    dockets = Docket.objects.prefetch_related('docket_update_log').all().order_by('-created_at')
+
+    return render(request, 'docket/view_dockets.html', context={'dockets' : dockets})
