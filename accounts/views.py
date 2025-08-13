@@ -77,7 +77,7 @@ def change_profile_details(request):
 
 
 @login_required(login_url='login')
-def change_password(request):
+def update_password(request):
     user = User.objects.get(email__exact = request.user.email)
     if request.method == 'POST':
         current_password = request.POST['current_password']
@@ -91,8 +91,22 @@ def change_password(request):
         if user.check_password(current_password):
             user.set_password(new_password)
             user.save()
-            messages.success(request, 'Password changed successfully!!')
+            messages.success(request, 'Password Updated successfully!!')
         else:
             messages.error(request, 'Incorrect Current Password')
 
     return redirect('change_profile_details')
+
+
+@login_required(login_url='login')
+def update_profile_image(request):
+    if request.method == 'POST' and request.FILES.get('profile_image'):
+        profile_image = request.FILES['profile_image']
+        user = request.user
+        user.profile_image = profile_image
+        user.save()
+        messages.success(request, 'Profile image updated successfully!')
+    else:
+        messages.error(request, 'Please upload a valid image.')
+
+    return redirect('change_profile_details')  # or your preferred redirect

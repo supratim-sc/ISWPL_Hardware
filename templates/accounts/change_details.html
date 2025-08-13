@@ -23,7 +23,7 @@
           <h5 class="mb-0">Change Password</h5>
         </div>
         <div class="card-body">
-          <form action="{% url 'change_password' %}" method="POST">
+          <form action="{% url 'update_password' %}" method="POST">
             {% csrf_token %}
             <div class="mb-3">
               <label for="current_password" class="form-label"
@@ -87,16 +87,17 @@
 
           <!-- Upload Form -->
           <form
-            action="/update-profile-picture"
+            action="{% url 'update_profile_image' %}"
             method="POST"
             enctype="multipart/form-data"
           >
+            {% csrf_token %}
             <div class="mb-3">
               <input
                 type="file"
                 class="form-control"
                 id="profilePicture"
-                name="profilePicture"
+                name="profile_image"
                 accept="image/*"
                 required
               />
