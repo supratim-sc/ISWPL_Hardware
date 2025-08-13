@@ -1,0 +1,117 @@
+{% extends 'includes/base.html' %}
+
+<!-- loading static files -->
+{% load static %}
+
+<!-- CONTENT BLOCK STARTS HERE-->
+{% block content %}
+
+<!-- INCLUDING NAVBAR -->
+{% include 'includes/navbar.html' %}
+
+<!-- INCLUDING MESSAGES -->
+{% include 'includes/messages.html' %}
+
+<link rel="stylesheet" href="{% static 'css/accounts/change_details.css' %}" />
+<div class="container py-5">
+  <h2 class="text-center mb-5">Account Settings</h2>
+  <div class="row g-5">
+    <!-- Change Password Form -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Change Password</h5>
+        </div>
+        <div class="card-body">
+          <form action="{% url 'change_password' %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="current_password" class="form-label"
+                >Current Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="current_password"
+                name="current_password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="new_password" class="form-label">New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="new_password"
+                name="new_password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="confirm_new_password" class="form-label"
+                >Confirm New Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="confirm_new_password"
+                name="confirm_new_password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              Update Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Profile Picture Form -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Change Profile Picture</h5>
+        </div>
+        <div class="card-body text-center">
+          <!-- Current Profile Picture -->
+          <div class="mb-4">
+            <img
+              id="profilePreview"
+              src="{{ user.profile_image.url }}"
+              alt="{{ user.email }}"
+              class="profile-img"
+            />
+            <p class="text-muted mt-2">Profile Picture</p>
+          </div>
+
+          <!-- Upload Form -->
+          <form
+            action="/update-profile-picture"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div class="mb-3">
+              <input
+                type="file"
+                class="form-control"
+                id="profilePicture"
+                name="profilePicture"
+                accept="image/*"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-success w-100">
+              Upload Picture
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/accounts/change_details.js' %}"></script>
+
+<!-- CONTENT ENDS HERE -->
+{% endblock %}

@@ -50,10 +50,10 @@
                 <td>{{ docket.phone_number }}</td>
                 <td>{{ docket.whatsapp_number }}</td>
                 <td>{{ docket.problem_facing }}</td>
-                <td>{{ docket.assigned_to }}</td>
+                <td>{{ docket.assigned_to.full_name }}</td>
                 <td>{{ docket.status }}</td>
                 <td>
-                  {{ update_log.updated_at|date:"M d, Y" }} by {{ update_log.updated_by }}
+                  {{ update_log.updated_at|date:"M d, Y" }} by {{ update_log.assigned_engineer.full_name }}
                 </td>
               </tr>
               {% endfor %}

@@ -124,7 +124,11 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="accountDropdown"
           >
-            <li><a class="dropdown-item" href="#">Change Details</a></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'change_profile_details' %}"
+                >Change Details</a
+              >
+            </li>
             <li>
               <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
             </li>
