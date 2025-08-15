@@ -23,7 +23,7 @@ admin.site.register(Docket, DocketAdmin)
 
 
 class DocketUpdateLogAdmin(admin.ModelAdmin):
-    list_display = ('docket_id', 'updated_by', 'assigned_engineer', 'updated_at')
-    list_filter = ('updated_at', 'updated_by', 'assigned_engineer')
+    list_display = ('docket_id', 'updated_by', 'assigned_engineer', 'status', 'updated_at')
+    list_filter = ('updated_at', 'updated_by', 'assigned_engineer', 'status')
 
 admin.site.register(DocketUpdateLog, DocketUpdateLogAdmin)

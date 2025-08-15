@@ -1,0 +1,307 @@
+{% extends 'includes/base.html' %}
+
+<!-- INCLUDING STATIC FILES -->
+{% load static %}
+
+<!-- CONTENT BLOCK -->
+{% block content %}
+<!-- INCLUDING NAV BAR -->
+{% include 'includes/navbar.html' %}
+
+<link rel="stylesheet" href="{% static 'css/docket/update_docket.css' %}" />
+
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/buttons/3.2.4/css/buttons.dataTables.css"
+/>
+
+<div class="container my-5">
+  <!-- Showing Messages Here -->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <!-- INCLUDING MESSAGES -->
+      {% include 'includes/messages.html' %}
+    </div>
+  </div>
+  <!-- End Messages Here -->
+
+  {% if request.user.role == "ADMIN" %}
+  <!-- RENDERING DOCKET FORM HERE -->
+  <h2 class="mt-5">Docket Update Form</h2>
+  <form action="{% url 'update_docket' docket.docket_id %}" method="post">
+    {% csrf_token %}
+
+    <!-- First and Last Name -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="first_name" class="form-label"
+          >First Name<span class="text-danger">*</span></label
+        >
+        {{ docket_form.first_name }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="last_name" class="form-label"
+          >Last Name<span class="text-danger">*</span></label
+        >
+        {{ docket_form.last_name }}
+      </div>
+    </div>
+
+    <!-- Phone and WhatsApp -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="phone_number" class="form-label"
+          >Phone Number <span class="text-danger">*</span></label
+        >
+        {{ docket_form.phone_number }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="whatsapp_number" class="form-label"
+          >WhatsApp Number <span class="text-danger">*</span></label
+        >
+        {{ docket_form.whatsapp_number }}
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="check_whatsapp_as_phone"
+          />
+          <label class="form-check-label" for="check_whatsapp_as_phone">
+            Same as Phone Number
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address and DOB -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="address" class="form-label"
+          >Address<span class="text-danger">*</span></label
+        >
+        {{ docket_form.address }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="dob" class="form-label"
+          >Date of Birth <span class="text-muted">(optional)</span></label
+        >
+        {{ docket_form.dob }}
+      </div>
+    </div>
+
+    <!-- Problem Facing and Expected Solution -->
+    <div class="mb-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="problem_facing" class="form-label"
+          >Problem Facing<span class="text-danger">*</span></label
+        >
+        {{ docket_form.problem_facing }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="expected_solution" class="form-label"
+          >Expected Solution <span class="text-muted">(optional)</span></label
+        >
+        {{ docket_form.expected_solution }}
+      </div>
+    </div>
+    <!-- Assigned To and Submit -->
+    <div class="mb-3 row g-2 d-flex align-items-end">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="assigned_to" class="form-label"
+          >Assigned to Adviser<span class="text-danger">*</span></label
+        >
+        {{ docket_form.assigned_to }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </form>
+  <!-- DOCKET FORM ENDS HERE -->
+  {% endif %}
+
+  <!-- RENDERING DOCKET FORM HERE -->
+  <h2 class="mt-5">Docket Log Update Form</h2>
+  <form
+    action="{% url 'docket_log_add_engineer' docket.docket_id %}"
+    method="post"
+    class="mb-5"
+  >
+    {% csrf_token %}
+
+    <!-- Assign Engineer & Submit -->
+    <div class="mb-3 row g-2 d-flex align-items-end">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label for="assigned_engineer" class="form-label"
+          >Assign Engineer<span class="text-danger">*</span></label
+        >
+        {{ docket_update_log_form.assigned_engineer }}
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <button type="submit" class="btn btn-primary">
+          Add Engineer to this Docket
+        </button>
+      </div>
+    </div>
+  </form>
+  <!-- DOCKET FORM ENDS HERE -->
+
+  <!-- SHOWING DOCKET UPDATE LOGS -->
+  <table class="table table-striped mt-5" id="DocketUpdateLogTable">
+    <thead>
+      <tr>
+        <th scope="col">Docket ID</th>
+        <th scope="col">Assigned Engineer</th>
+        <th scope="col">Updated By</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Updated At</th>
+        <th scope="col">Status</th>
+        <th scope="col" class="no-export">Change Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log, form in docket_log_forms %}
+      <tr>
+        <th scope="row">{{ log.docket_id }}</th>
+        <td>{{ log.assigned_engineer }}</td>
+        <td>{{ log.updated_by }}</td>
+        <td>{{ log.docket_id.created_at }}</td>
+        <td>{{ log.updated_at }}</td>
+        <td>{{ log.status }}</td>
+        <td>
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#docket_log_status_update"
+          >
+            Change
+          </button>
+
+          <!-- Modal -->
+          <form
+            action="{% url 'docket_log_update_status' docket.docket_id log.pk %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <div
+              class="modal fade"
+              id="docket_log_status_update"
+              tabindex="-1"
+              aria-labelledby="docket_log_status_updateLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1
+                      class="modal-title fs-5"
+                      id="docket_log_status_updateLabel"
+                    >
+                      Select Docket Status
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">{{ form.status }}</div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script src="{% static 'js/docket/update_docket.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.4/js/buttons.print.min.js"></script>
+<script>
+  new DataTable("#DocketUpdateLogTable", {
+    responsive: true,
+    layout: {
+      topStart: {
+        buttons: [
+          {
+            extend: "copy",
+            exportOptions: {
+              columns: ":not(.no-export)",
+            },
+          },
+          {
+            extend: "csv",
+            exportOptions: {
+              columns: ":not(.no-export)",
+            },
+          },
+          {
+            extend: "excel",
+            exportOptions: {
+              columns: ":not(.no-export)",
+            },
+          },
+          {
+            extend: "pdf",
+            exportOptions: {
+              columns: ":not(.no-export)",
+            },
+          },
+          {
+            extend: "print",
+            text: "Print",
+            exportOptions: {
+              columns: ":not(.no-export)",
+            },
+            customize: function (win) {
+              const style = document.createElement("style");
+              style.textContent = `
+                @page {
+                  size: A4 landscape;
+                  margin: 1cm;
+                }
+              `;
+              win.document.head.appendChild(style);
+            },
+          },
+        ],
+      },
+    },
+    order: [], // disables initial sorting
+  });
+</script>
+
+{% endblock %}
+<!-- END OF CONTENT BLOCK -->

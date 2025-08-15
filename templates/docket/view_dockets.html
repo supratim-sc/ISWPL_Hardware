@@ -32,48 +32,25 @@
         <th scope="col">Problem Facing</th>
         <th scope="col">Assigned To Adviser</th>
         <th scope="col">Status</th>
-        <th scope="col">Update Log</th>
       </tr>
     </thead>
     <tbody>
       <!-- LOOPING OVE DOCKETS -->
       {% for docket in dockets %}
-        <!-- FETCHING THE UPDATE LOGS FOR THE DOCKET -->
-        {% with update_logs=docket.docket_update_log.all %}
-          <!-- IF UPDATE LOG IS PRESENT FOR THIS DOCKET THEN -->
-            {% if update_logs %}
-              <!-- LOOPING OVER THE UPDATE LOGS -->
-              {% for update_log in update_logs %}
-              <tr class="align-middle text-center">
-                <th scope="row"><a href="">{{ docket.docket_id }}</a></th>
-                <td>{{ docket.full_name }}</td>
-                <td>{{ docket.phone_number }}</td>
-                <td>{{ docket.whatsapp_number }}</td>
-                <td>{{ docket.problem_facing }}</td>
-                <td>{{ docket.assigned_to.full_name }}</td>
-                <td>{{ docket.status }}</td>
-                <td>
-                  {{ update_log.updated_at|date:"M d, Y" }} by {{ update_log.assigned_engineer.full_name }}
-                </td>
-              </tr>
-              {% endfor %}
-              <!-- ENDING OF FOR LOOP -->
-            {% else %}
-            <!-- IF THERE IS NO UPDATE LOG PRESENT FOR THE DOCKET -->
-              <tr class="align-middle text-center">
-                <th scope="row"><a href="">{{ docket.docket_id }}</a></th>
-                <td>{{ docket.full_name }}</td>
-                <td>{{ docket.phone_number }}</td>
-                <td>{{ docket.whatsapp_number }}</td>
-                <td>{{ docket.problem_facing }}</td>
-                <td>{{ docket.assigned_to }}</td>
-                <td>{{ docket.status }}</td>
-                <td>No updates</td>
-              </tr>
-            {% endif %}
-            <!-- ENDING OF IF STATEMENT -->
-          {% endwith %}
-          <!-- ENDING OF WITH BLOCK -->
+
+      <tr class="align-middle text-center">
+        <th scope="row">
+          <a href="{% url 'update_docket' docket.docket_id %}"
+            >{{ docket.docket_id }}</a
+          >
+        </th>
+        <td>{{ docket.full_name }}</td>
+        <td>{{ docket.phone_number }}</td>
+        <td>{{ docket.whatsapp_number }}</td>
+        <td>{{ docket.problem_facing }}</td>
+        <td>{{ docket.assigned_to.full_name }}</td>
+        <td>{{ docket.status }}</td>
+      </tr>
       {% endfor %}
       <!-- ENDING OF FOE LOOP -->
     </tbody>

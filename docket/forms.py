@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Docket
+from .models import Docket, DocketUpdateLog
 
 from accounts.models import User
 
@@ -29,3 +29,13 @@ class DocketForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # self.fields['assigned_to'].queryset = User.objects.filter(role="ADVISER", is_active=True)
         self.fields['assigned_to'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
+
+
+class DocketUpdateLogForm(forms.ModelForm):
+    class Meta:
+        model = DocketUpdateLog
+        exclude = {'docket_id', 'updated_by', 'updated_at'}
+        widgets = {
+            'assigned_engineer' : forms.Select(attrs = {'class' : 'form-select'}),
+            'status' : forms.Select(attrs = {'class' : 'form-select'}),
+        }

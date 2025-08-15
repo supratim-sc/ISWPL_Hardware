@@ -5,16 +5,15 @@ from django.utils import timezone
 from enquiry.models import Enquiry
 from accounts.models import User
 
-
-class Docket(models.Model):
-    STATUS_CHOICES = [
+STATUS_CHOICES = [
         ('Created', 'Created'),
-        ('Assigned', 'Assigned/Initiated'),
-        ('Parts Required', 'Parts Required (Pending)'),
-        ('Servicing', 'Taken for Servicing (Pending)'),
+        ('Assigned/Initiated', 'Assigned/Initiated'),
+        ('Parts Required (Pending)', 'Parts Required (Pending)'),
+        ('Taken for Servicing (Pending)', 'Taken for Servicing (Pending)'),
         ('Solved', 'Solved'),
     ]
 
+class Docket(models.Model):
     docket_id = models.CharField(max_length=20, unique=True, editable=False)
     enquiry = models.ForeignKey(Enquiry, null=True, blank=True, on_delete=models.RESTRICT, related_name='dockets')
     first_name = models.CharField(max_length=100)
@@ -32,7 +31,7 @@ class Docket(models.Model):
         limit_choices_to={'role': 'ADVISER', 'is_active': True},
         related_name='assigned_dockets'
     )
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
     created_at = models.DateTimeField(auto_now_add=True)
     closed_at = models.DateTimeField(null=True, blank=True)
     created_by = models.ForeignKey(
@@ -83,7 +82,15 @@ class DocketUpdateLog(models.Model):
         limit_choices_to={'role': 'ADVISER', 'is_active': True},
         related_name='updated_by_adviser'
     )
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.docket_id.docket_id
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs) # Save the DocketUpdateLog instance first
+        
+        # Update the related Docket's status
+        self.docket_id.status = self.status
+        self.docket_id.save()
