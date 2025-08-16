@@ -81,22 +81,17 @@ def view_dockets(request):
 @role_required("ADMIN", "ADVISER")
 def update_docket(request, docket_id):
     docket = get_object_or_404(Docket, docket_id=docket_id)
-    docket_logs = DocketUpdateLog.objects.filter(docket_id=docket).order_by('-updated_at')
+    docket_logs = DocketUpdateLog.objects.filter(docket_id=docket).order_by('-pk')
 
     # POST: creating a new log and/or updating docket info
     if request.method == 'POST':
         docket_form = DocketForm(request.POST, instance=docket)
-        docket_update_log_form = DocketUpdateLogForm(request.POST)
 
-        if docket_form.is_valid() and docket_update_log_form.is_valid():
-            docket_form.save()
-
-            log_entry = docket_update_log_form.save(commit=False)
-            log_entry.docket_id = docket
-            log_entry.updated_by = request.user
-            log_entry.save()
-
-            messages.success(request, 'Docket and log updated successfully')
+        if docket_form.is_valid():
+            docket_instance = docket_form.save(commit=False)
+            docket_instance.updated_by = request.user
+            docket_instance.save()
+            messages.success(request, 'Docket updated successfully')
             return redirect('update_docket', docket_id=docket.docket_id)
     
     else:
@@ -148,6 +143,7 @@ def docket_log_update_status(request, docket_id, pk):
     docket = get_object_or_404(Docket, docket_id=docket_id)
     docket_update_log = get_object_or_404(DocketUpdateLog, pk=pk, docket_id=docket)
 
+    print(docket_update_log, docket_id, pk)
     # Capture current engineer before form binding
     original_engineer = docket_update_log.assigned_engineer
 

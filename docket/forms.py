@@ -7,7 +7,7 @@ from accounts.models import User
 class DocketForm(forms.ModelForm):
     class Meta:
         model = Docket
-        exclude = ['docket_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_log', 'closed_at', 'update_log']  # exclude auto-generated fields
+        exclude = ['docket_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by', 'updated_log', 'closed_at',]  # exclude auto-generated fields
         widgets = {
             'enquiry': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),

@@ -177,17 +177,17 @@
         <td>{{ log.updated_at }}</td>
         <td>{{ log.status }}</td>
         <td>
-          <!-- Button trigger modal -->
+          <!-- Unique ID for each modal -->
           <button
             type="button"
             class="btn btn-primary"
             data-bs-toggle="modal"
-            data-bs-target="#docket_log_status_update"
+            data-bs-target="#docket_log_status_update_{{ log.pk }}"
           >
             Change
           </button>
 
-          <!-- Modal -->
+          <!-- Modal: unique ID and separate form per log -->
           <form
             action="{% url 'docket_log_update_status' docket.docket_id log.pk %}"
             method="post"
@@ -195,9 +195,9 @@
             {% csrf_token %}
             <div
               class="modal fade"
-              id="docket_log_status_update"
+              id="docket_log_status_update_{{ log.pk }}"
               tabindex="-1"
-              aria-labelledby="docket_log_status_updateLabel"
+              aria-labelledby="docket_log_status_updateLabel_{{ log.pk }}"
               aria-hidden="true"
             >
               <div class="modal-dialog">
@@ -205,7 +205,7 @@
                   <div class="modal-header">
                     <h1
                       class="modal-title fs-5"
-                      id="docket_log_status_updateLabel"
+                      id="docket_log_status_updateLabel_{{ log.pk }}"
                     >
                       Select Docket Status
                     </h1>

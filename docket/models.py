@@ -33,15 +33,20 @@ class Docket(models.Model):
     )
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
     created_at = models.DateTimeField(auto_now_add=True)
-    closed_at = models.DateTimeField(null=True, blank=True)
     created_by = models.ForeignKey(
         User,
         on_delete=models.RESTRICT,
         null=True,
         related_name='created_dockets'
     )
-    # The 'update_log' field is removed here
-    # update_log = models.ForeignKey('DocketUpdateLog', null=True, blank=True, on_delete=models.RESTRICT)
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(
+        User, 
+        on_delete=models.RESTRICT, 
+        null=True, 
+        related_name='updated_docket'
+    )
+    closed_at = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.docket_id:
@@ -83,14 +88,22 @@ class DocketUpdateLog(models.Model):
         related_name='updated_by_adviser'
     )
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.docket_id.docket_id
     
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs) # Save the DocketUpdateLog instance first
-        
+        super().save(*args, **kwargs)  # Save the DocketUpdateLog instance first
+
         # Update the related Docket's status
-        self.docket_id.status = self.status
-        self.docket_id.save()
+        docket = self.docket_id
+        docket.status = self.status
+
+        # Logic for closed_at handling
+        if self.status == 'Solved':
+            docket.closed_at = timezone.now()
+        else:
+            docket.closed_at = None
+
+        docket.save()

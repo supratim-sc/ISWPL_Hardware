@@ -32,6 +32,7 @@
         <th scope="col">Problem Facing</th>
         <th scope="col">Assigned To Adviser</th>
         <th scope="col">Status</th>
+        <th scope="col">Closed At</th>
       </tr>
     </thead>
     <tbody>
@@ -50,6 +51,7 @@
         <td>{{ docket.problem_facing }}</td>
         <td>{{ docket.assigned_to.full_name }}</td>
         <td>{{ docket.status }}</td>
+        <td>{{ docket.closed_at }}</td>
       </tr>
       {% endfor %}
       <!-- ENDING OF FOE LOOP -->
