@@ -21,3 +21,19 @@ check_whatsapp_as_phone.addEventListener("change", function () {
     whatsapp_number.value = "";
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (whatsapp_number.value == phone_number.value) {
+    check_whatsapp_as_phone.checked = true;
+  } else {
+    check_whatsapp_as_phone.checked = false;
+  }
+});
+
+document.addEventListener("change", function () {
+  if (whatsapp_number.value == phone_number.value) {
+    check_whatsapp_as_phone.checked = true;
+  } else {
+    check_whatsapp_as_phone.checked = false;
+  }
+});
