@@ -2,6 +2,14 @@ from django.contrib import admin
 from .models import Docket, DocketUpdateLog
 
 # Register your models here.
+# Define the Inline for DocketUpdateLog
+class DocketUpdateLogInline(admin.TabularInline):
+    model = DocketUpdateLog
+    extra = 0  # No extra blank forms
+    readonly_fields = ('updated_at',)  # Optional
+    fields = ('assigned_engineer', 'updated_by', 'status', 'updated_at')  # Customize as needed
+
+
 class DocketAdmin(admin.ModelAdmin):
     # Make these fields read-only
     readonly_fields = ('docket_id', 'created_at', 'closed_at')
@@ -17,6 +25,9 @@ class DocketAdmin(admin.ModelAdmin):
     list_filter = ('status', 'assigned_to', 'created_at')
     search_fields = ('docket_id', 'first_name', 'last_name', 'phone_number')
     readonly_fields = ('docket_id', 'created_at', 'closed_at')
+
+
+    inlines = [DocketUpdateLogInline]  # Add inline logs to Docket admin
 
 admin.site.register(Docket, DocketAdmin)
 

@@ -76,15 +76,21 @@ class DocketUpdateLog(models.Model):
         on_delete=models.RESTRICT, 
         null=True, 
         blank=True,
-        limit_choices_to={'role': 'ENGINEER', 'is_active': True},
+        limit_choices_to={
+            'role': 'ENGINEER',
+            'is_active': True
+        },
         related_name='assigned_engineer'
     )
     updated_by = models.ForeignKey(
         User, 
         on_delete=models.RESTRICT, 
         null=True, 
-        blank=True, 
-        limit_choices_to={'role': 'ADVISER', 'is_active': True},
+        blank=True,
+        limit_choices_to={
+            'is_active': True,
+            'role__in': ['ADMIN', 'ADVISER']
+        },
         related_name='updated_by_adviser'
     )
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
