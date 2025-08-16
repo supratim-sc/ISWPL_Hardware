@@ -129,6 +129,15 @@
                 >Change Details</a
               >
             </li>
+            {% if request.user.role == "ADMIN" %}
+            <li>
+              <a
+                class="dropdown-item"
+                href="{% url 'create_user_from_dashboard' %}"
+                >Add User</a
+              >
+            </li>
+            {% endif %}
             <li>
               <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
             </li>

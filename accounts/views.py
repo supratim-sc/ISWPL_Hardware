@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+from docket.views import role_required
+
 
 from .models import User
+from .forms import CustomUserCreationFormDashboard
+
 
 # Create your views here.
 def login(request):
@@ -110,3 +115,21 @@ def update_profile_image(request):
         messages.error(request, 'Please upload a valid image.')
 
     return redirect('change_profile_details')  # or your preferred redirect
+
+
+
+@login_required(login_url='login')
+@role_required('ADMIN')
+def create_user_from_dashboard(request):
+    custom_user_creation_form = CustomUserCreationFormDashboard()
+
+    if request.method == 'POST':
+        custom_user_creation_form = CustomUserCreationFormDashboard(request.POST)
+        if custom_user_creation_form.is_valid():
+            custom_user_creation_form.save()
+            messages.success(request, 'User Created Successfully')
+            return redirect('dashboard') 
+        else:
+            messages.error(request, "Please correct the errors below.")
+
+    return render(request, 'accounts/create_user_from_dashboard.html', {'custom_user_creation_form': custom_user_creation_form})

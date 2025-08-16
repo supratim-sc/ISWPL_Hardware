@@ -8,4 +8,5 @@ urlpatterns = [
     path('change_profile_details/', views.change_profile_details, name='change_profile_details'),
     path('update_password/', views.update_password, name='update_password'),
     path('update_profile_image/', views.update_profile_image, name='update_profile_image'),
+    path('create_user_from_dashboard/', views.create_user_from_dashboard, name='create_user_from_dashboard'),
 ]

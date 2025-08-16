@@ -1,0 +1,149 @@
+{% extends 'includes/base.html' %}
+
+<!-- LOADING STATIC FILES -->
+{% load static %}
+
+<!-- Here starts out content -->
+{% block content %}
+
+<!-- INCLUDING DASH BOARD -->
+{% include 'includes/navbar.html' %}
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-12">
+      <!-- Showing Messages Here -->
+      {% include 'includes/messages.html' %}
+    </div>
+  </div>
+
+  <!-- User Creation Form -->
+  <form
+    action="{% url 'create_user_from_dashboard' %}"
+    method="POST"
+    class="mb-5"
+  >
+    {% csrf_token %}
+
+    <!-- Show non-field errors (e.g., password mismatch) -->
+    {% if custom_user_creation_form.non_field_errors %}
+    <div class="alert alert-danger">
+      <!-- start loop -->
+      {% for error in custom_user_creation_form.non_field_errors %}
+      <!-- showing errors -->
+      {{ error }}
+      <!-- end of loop -->
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- First Name & Last Name -->
+    <div class="my-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label"
+          >First Name <span class="text-danger">*</span></label
+        >
+
+        {{ custom_user_creation_form.first_name }}
+        <!-- looping over errors -->
+        {% for error in custom_user_creation_form.first_name.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label"
+          >Last Name <span class="text-danger">*</span></label
+        >
+        {{ custom_user_creation_form.last_name }}
+        <!-- looping over errors -->
+        {% for error in custom_user_creation_form.last_name.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+    </div>
+
+    <!-- Email & Phone Number -->
+    <div class="my-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label"
+          >Email <span class="text-danger">*</span></label
+        >
+        {{ custom_user_creation_form.email }}
+        <!-- looping over errors -->
+        {% for error in custom_user_creation_form.email.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label"
+          >Phone Number <span class="text-danger">*</span></label
+        >
+        {{ custom_user_creation_form.phone_number }}
+        <!-- looping over errors -->
+        {% for error in custom_user_creation_form.phone_number.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+    </div>
+
+    <!-- Password & Confirm Password -->
+    <div class="my-3 row g-2">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label"
+          >Password <span class="text-danger">*</span></label
+        >
+        {{ custom_user_creation_form.password }}
+        <!-- looping over errors -->
+        {% for error in custom_user_creation_form.password.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label"
+          >Confirm Password <span class="text-danger">*</span></label
+        >
+        {{ custom_user_creation_form.confirm_password }}
+        <!-- looping over errors -->
+        {% for error in custom_user_creation_form.confirm_password.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+    </div>
+
+    <!-- Role & Is Active -->
+    <div class="my-3 row g-2 d-flex align-items-end">
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label"
+          >Role <span class="text-danger">*</span></label
+        >
+        {{ custom_user_creation_form.role }}
+        <!-- looping over errors -->
+        {% for error in custom_user_creation_form.role.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+      <div class="col-md-6 col-sm-12 form-group">
+        <label class="form-label">Can Login</label>
+        {{ custom_user_creation_form.is_active }}
+        <!-- looping over erros -->
+        {% for error in custom_user_creation_form.is_active.errors %}
+        <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+        <!-- end loop -->
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="my-5">
+      <button type="submit" class="btn btn-primary">Add User</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
