@@ -16,8 +16,6 @@ STATUS_CHOICES = [
 class Docket(models.Model):
     docket_id = models.CharField(max_length=20, unique=True, editable=False)
     enquiry = models.ForeignKey(Enquiry, null=True, blank=True, on_delete=models.RESTRICT, related_name='dockets')
-    # first_name = models.CharField(max_length=100)
-    # last_name = models.CharField(max_length=100)
     full_name = models.CharField(max_length=255)
     address = models.TextField()
     phone_number = models.CharField(max_length=15)
@@ -33,7 +31,7 @@ class Docket(models.Model):
         related_name='assigned_dockets'
     )
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(
         User,
         on_delete=models.RESTRICT,

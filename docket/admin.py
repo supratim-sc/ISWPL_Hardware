@@ -12,11 +12,11 @@ class DocketUpdateLogInline(admin.TabularInline):
 
 class DocketAdmin(admin.ModelAdmin):
     # Make these fields read-only
-    readonly_fields = ('docket_id', 'created_at', 'closed_at')
+    readonly_fields = ('docket_id', 'closed_at')
 
     # You can also define fields to include/exclude for the form
     fields = ('enquiry', 'full_name', 'address', 'phone_number', 'whatsapp_number', 'dob', 
-              'problem_facing', 'expected_solution', 'assigned_to', 'status', 'created_by', 'updated_by',)
+              'problem_facing', 'expected_solution', 'assigned_to', 'status', 'created_by', 'created_at', 'updated_by',)
     
     list_display = (
         'docket_id', 'full_name', 'assigned_to',
@@ -24,7 +24,6 @@ class DocketAdmin(admin.ModelAdmin):
     )
     list_filter = ('status', 'assigned_to', 'created_at')
     search_fields = ('docket_id', 'full_name', 'phone_number')
-    readonly_fields = ('docket_id', 'created_at', 'closed_at')
 
 
     inlines = [DocketUpdateLogInline]  # Add inline logs to Docket admin
