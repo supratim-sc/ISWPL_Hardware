@@ -15,15 +15,15 @@ class DocketAdmin(admin.ModelAdmin):
     readonly_fields = ('docket_id', 'created_at', 'closed_at')
 
     # You can also define fields to include/exclude for the form
-    fields = ('enquiry', 'first_name', 'last_name', 'address', 'phone_number', 'whatsapp_number', 'dob', 
+    fields = ('enquiry', 'full_name', 'address', 'phone_number', 'whatsapp_number', 'dob', 
               'problem_facing', 'expected_solution', 'assigned_to', 'status', 'created_by', 'updated_by',)
     
     list_display = (
-        'docket_id', 'first_name', 'last_name', 'assigned_to',
+        'docket_id', 'full_name', 'assigned_to',
         'status', 'created_at', 'updated_by', 'updated_at', 'closed_at',
     )
     list_filter = ('status', 'assigned_to', 'created_at')
-    search_fields = ('docket_id', 'first_name', 'last_name', 'phone_number')
+    search_fields = ('docket_id', 'full_name', 'phone_number')
     readonly_fields = ('docket_id', 'created_at', 'closed_at')
 
 

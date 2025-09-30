@@ -16,8 +16,9 @@ STATUS_CHOICES = [
 class Docket(models.Model):
     docket_id = models.CharField(max_length=20, unique=True, editable=False)
     enquiry = models.ForeignKey(Enquiry, null=True, blank=True, on_delete=models.RESTRICT, related_name='dockets')
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    # first_name = models.CharField(max_length=100)
+    # last_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=255)
     address = models.TextField()
     phone_number = models.CharField(max_length=15)
     whatsapp_number = models.CharField(max_length=15)
@@ -64,9 +65,7 @@ class Docket(models.Model):
 
     def __str__(self):
         return self.docket_id
-    
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
+
 
 
 class DocketUpdateLog(models.Model):

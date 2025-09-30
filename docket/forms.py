@@ -10,8 +10,7 @@ class DocketForm(forms.ModelForm):
         exclude = ['docket_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by', 'updated_log', 'closed_at',]  # exclude auto-generated fields
         widgets = {
             'enquiry': forms.TextInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'full_name': forms.TextInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'whatsapp_number': forms.TextInput(attrs={'class': 'form-control'}),
             'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),

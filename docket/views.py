@@ -40,8 +40,7 @@ def create_docket(request):
                 docket_form = DocketForm(
                     initial={
                         'enquiry': enquiry.id,
-                        'first_name': enquiry.first_name,
-                        'last_name': enquiry.last_name,
+                        'full_name': enquiry.full_name,
                         'phone_number': enquiry.phone_number,
                         'whatsapp_number': enquiry.whatsapp_number,
                         'address': enquiry.address,
