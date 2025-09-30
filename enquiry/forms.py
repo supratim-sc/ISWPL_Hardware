@@ -6,8 +6,7 @@ class EnquiryForm(forms.ModelForm):
         model = Enquiry
         exclude = ['enquiry_id', 'created_at', 'updated_at', 'created_by', 'updated_by']  # exclude auto-generated fields
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'full_name': forms.TextInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'whatsapp_number': forms.TextInput(attrs={'class': 'form-control'}),
             'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),

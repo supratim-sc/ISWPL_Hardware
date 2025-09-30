@@ -24,18 +24,11 @@
     {% csrf_token %}
     <!-- Form input First Name & Last Name -->
     <div class="mb-3 row g-2">
-      <div class="col-md-6 col-sm-12 form-group">
-        <label for="first_name" class="form-label"
-          >First name <span class="text-danger">*</span>
+      <div class="col-md-12 col-sm-12 form-group">
+        <label for="full_name" class="form-label"
+          >Full name <span class="text-danger">*</span>
         </label>
-        {{ enquiry_form.first_name }}
-      </div>
-      <!-- form-group end.// -->
-      <div class="col-md-6 col-sm-12 form-group">
-        <label for="last_name" class="form-label"
-          >Last name <span class="text-danger">*</span></label
-        >
-        {{ enquiry_form.last_name }}
+        {{ enquiry_form.full_name }}
       </div>
       <!-- form-group end.// -->
     </div>

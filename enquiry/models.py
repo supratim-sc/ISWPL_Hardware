@@ -34,8 +34,9 @@ class ReferenceType(models.Model):
 
 class Enquiry(models.Model):
     enquiry_id = models.CharField(max_length=20, unique=True, editable=False)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    # first_name = models.CharField(max_length=255)
+    # last_name = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=10)
     whatsapp_number = models.CharField(max_length=10)
     address = models.TextField()
@@ -72,11 +73,7 @@ class Enquiry(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.enquiry_id
-    
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
-    
+        return self.enquiry_id    
 
     class Meta:
         verbose_name_plural = 'Enquiries'
