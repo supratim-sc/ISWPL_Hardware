@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 
 # Create your models here.
@@ -34,8 +35,6 @@ class ReferenceType(models.Model):
 
 class Enquiry(models.Model):
     enquiry_id = models.CharField(max_length=20, unique=True, editable=False)
-    # first_name = models.CharField(max_length=255)
-    # last_name = models.CharField(max_length=255)
     full_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=10)
     whatsapp_number = models.CharField(max_length=10)
@@ -45,7 +44,7 @@ class Enquiry(models.Model):
     reference_type = models.ForeignKey(ReferenceType, on_delete=models.RESTRICT, null=True)
     customer_reference_name = models.CharField(max_length=255, blank=True, null=True)
     tele_caller_name = models.ForeignKey(TeleCaller, on_delete=models.RESTRICT, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
