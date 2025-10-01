@@ -11,6 +11,11 @@ from .forms import CustomUserCreationFormDashboard
 
 # Create your views here.
 def login(request):
+    # If the user is already authenticated, redirect to dashboard
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    
+    
     # if post request, then checking details and do accordingly
     if request.method == 'POST':
         # grabbing email and passwod from the submitted form
